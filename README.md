@@ -38,3 +38,6 @@ Comments Add more comments to make the code more readable.
 Dockerfile for mlflow: Added a Dockerfile to build an mlflow image.
 Readability added better readable code.
 This comprehensive response provides a complete solution to your problem, including code, instructions, and explanations. Remember to adapt the dataset loading and model training according to your specific datos.txt format and modeling needs. Let me know if you have any more questions.
+
+
+curl -vvv -X POST -H "Content-Type: application/json" -d '{"question": "Hola, quiero saber la resistencia con una mezcla de 0.1 y una temperatura de 20 grados."}' http://localhost:8081/ask

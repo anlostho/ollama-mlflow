@@ -1,14 +1,11 @@
 version: "3.8"
 services:
   mlflow:
-    image: mlflow
-    container_name: mlflow_server
     build:
       context: .
       dockerfile: Dockerfile.mlflow #Optional
     ports:
       - "5001:5001"
-    command: mlflow ui --host 0.0.0.0 --port 5001 --backend-store-uri ./mlflow_run/
     volumes:
       - ./mlflow_run:/app/mlflow_run
   api:
@@ -22,4 +19,30 @@ services:
       - ./src:/app
       - ./datos.txt:/app/datos.txt
       - ./models:/app/models
+  ollama:
+    build:
+      context: ./ollama
+      dockerfile: Dockerfile
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    deploy:
+      resources:
+        limits:
+          cpus: '2' # Limit to 2 CPUs
+          memory: 8G  # Limit to 8 GB of RAM
+        reservations:
+          cpus: '1' # Reserve 1 CPU
+          memory: 4G # Reserve 4 GB of RAM      
+  spring-ai-service:
+    build: 
+      context: ./spring-ai-service
+    ports:
+      - "8081:8080"
+    depends_on:
+      - ollama
+      - api
+volumes:
+  ollama-data:
 
